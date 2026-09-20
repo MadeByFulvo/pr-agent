@@ -147,7 +147,7 @@ class PRSimilarIssue:
                 self.pinecone_index = self.pc.Index(name=index_name)
                 issues_to_update = []
                 issues_paginated_list = repo_obj.get_issues(state='all')
-                counter = 1
+                counter = 0
                 for issue in issues_paginated_list:
                     if issue.pull_request:
                         continue
@@ -208,7 +208,7 @@ class PRSimilarIssue:
             else:  # update table if needed
                 issues_to_update = []
                 issues_paginated_list = repo_obj.get_issues(state='all')
-                counter = 1
+                counter = 0
                 for issue in issues_paginated_list:
                     if issue.pull_request:
                         continue
@@ -289,7 +289,7 @@ class PRSimilarIssue:
             else:
                 issues_to_update = []
                 issues_paginated_list = repo_obj.get_issues(state='all')
-                counter = 1
+                counter = 0
                 for issue in issues_paginated_list:
                     if issue.pull_request:
                         continue
@@ -475,7 +475,7 @@ class PRSimilarIssue:
             counter += 1
             if counter % 100 == 0:
                 get_logger().info(f"Scanned {counter} issues")
-            if counter >= self.max_issues_to_scan:
+            if counter > self.max_issues_to_scan:
                 get_logger().info(f"Scanned {self.max_issues_to_scan} issues, stopping")
                 break
 
@@ -562,7 +562,7 @@ class PRSimilarIssue:
             counter += 1
             if counter % 100 == 0:
                 get_logger().info(f"Scanned {counter} issues")
-            if counter >= self.max_issues_to_scan:
+            if counter > self.max_issues_to_scan:
                 get_logger().info(f"Scanned {self.max_issues_to_scan} issues, stopping")
                 break
 
@@ -651,7 +651,7 @@ class PRSimilarIssue:
             counter += 1
             if counter % 100 == 0:
                 get_logger().info(f"Scanned {counter} issues")
-            if counter >= self.max_issues_to_scan:
+            if counter > self.max_issues_to_scan:
                 get_logger().info(f"Scanned {self.max_issues_to_scan} issues, stopping")
                 break
 
