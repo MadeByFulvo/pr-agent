@@ -93,6 +93,24 @@ def _fake_table():
     return fake_table
 
 
+def test_indexes_exactly_max_issues_to_scan(monkeypatch):
+    """A cap of N indexes exactly N issues, not N-1."""
+    fake_db = FakeDB([])
+    created = {}
+    fake_db.create_table = lambda name, data, mode: created.update(rows=len(data))
+
+    tool = _make_tool(monkeypatch, fake_db)
+    tool.max_issues_to_scan = 3
+
+    tool._update_table_with_issues(
+        [_fake_issue(number=i) for i in range(1, 6)],
+        "utkarsh-demo",
+    )
+
+    # 1 example record + 3 issue records (the cap), not 2
+    assert created["rows"] == 4
+
+
 def test_initial_creation_overwrites_the_table(monkeypatch):
     """A from-scratch run (no existing table) creates the table with overwrite."""
     fake_db = FakeDB(["codium-ai-pr-agent-issues"])
